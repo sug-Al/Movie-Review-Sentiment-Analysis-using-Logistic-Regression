@@ -1,0 +1,80 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Review Sentiment</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
+                <form action="review/" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <h4>Leave a review</h4>
+                        <label>Review</label>
+                        <textarea name="review" cols="30" rows="5" class="form-control" ></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label> <input type="text" name="username" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="Submit" class="btn" name="post" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+        <div>
+            <p><h4>
+                Total reviews: {{count.reviews}} <br>
+                Positive reviews: {{count.pos}} <br>
+                Negative reviews: {{count.neg}}
+            </h4> </p>
+        </div>
+        <br>
+        <table class="table table-dark">
+          <thead>
+            <tr>
+<!--              <th scope="col">#</th>-->
+              <th scope="col">Username</th>
+              <th scope="col">Review</th>
+              <th scope="col">Sentiment</th>
+
+              <th scope="col">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for x in data%}
+            <tr>
+<!--              <th scope="row">{{x.id}}</th>-->
+              <td>{{x.username}} <br>-- {{x.date}}
+              </td>
+              <td>{{x.review}} <br> <br>
+                    <a href="edit/{{ x.id }}" class="btn btn-primary"> Edit </a>
+                    <a href="delete/{{ x.id }}" class="btn btn-danger"> Delete </a>
+              </td>
+
+              <td> {{x.sentiment}}
+<!--                  {% if x.sentiment == "Positive sentiment" %}-->
+<!--                    <img class="sentiment" src="{% static 'images/positive.png' %}" alt= "Positive sentiment" >-->
+<!--                  {% else %}-->
+<!--                    <img class="seniment" src="{% static 'images/negative.png' %}" alt= "Negative sentiment" >-->
+<!--                  {% endif %}-->
+
+              </td>
+
+              <td>{{x.score}}</td>
+
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
